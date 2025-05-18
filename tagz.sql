@@ -84,10 +84,9 @@ Create Table tagz_order_status(
 -- Creating tagz Order History Table
 Create Table tagz_order_history(
     tagz_order_history_id int primary key UNIQUE AUTO_INCREMENT,
-    tagz_order_id int,
-    status_name VARCHAR(100) NOT NULL,
-    order_date datetime,
-    foreign key (tagz_order_id) references tagz_order(tagz_order_id),
+    tagz_order_id int,    
+    status_name VARCHAR(100),
+    order_date datetime, 
+    foreign key (tagz_order_id) references tagz_order(tagz_order_id), 
     foreign key (status_name) references tagz_order_status(status_name)
-    foreign key (order_date) references tagz_order(order_date)
 );
