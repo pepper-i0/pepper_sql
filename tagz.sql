@@ -17,7 +17,9 @@ Create Table orders(
     user_id int,
     payment_status_id int,
     order_date datetime,
+    tagz_type VARCHAR(255) NOT NULL,
     tagz_quantity int,
+    tagz_price DECIMAL(10,2) NOT NULL,
     foreign key (user_id) references users(user_id),
     foreign key (payment_status_id) references payment_status(payment_status_id)
 );
