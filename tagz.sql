@@ -1,6 +1,6 @@
 -- Creating Database
-Create Database tagz;
-Use tagz;
+Create Database ticket;
+Use ticket;
 
 -- Creating User Table
 Create Table users (
@@ -17,9 +17,9 @@ Create Table orders(
     user_id int,
     payment_status_id int,
     order_date datetime,
-    tagz_type VARCHAR(255) NOT NULL,
-    tagz_quantity int,
-    tagz_price DECIMAL(10,2) NOT NULL,
+    ticket_type VARCHAR(255) NOT NULL,
+    ticket_quantity int,
+    ticket_price DECIMAL(10,2) NOT NULL,
     foreign key (user_id) references users(user_id),
     foreign key (payment_status_id) references payment_status(payment_status_id)
 );
@@ -30,65 +30,65 @@ Create Table payment_status(
     status_name VARCHAR(100)
     );
 
--- Creating Tagz Table
-Create Table tagz(
-    tagz_code int primary key UNIQUE AUTO_INCREMENT,
-    tagz_name VARCHAR(100) NOT NULL,
-    tagz_type VARCHAR(255) NOT NULL,
-    tagz_price DECIMAL(10,2) NOT NULL,
-    tagz_quantity int NOT NULL NOT > 1
+-- Creating ticket Table
+Create Table ticket(
+    ticket_code int primary key UNIQUE AUTO_INCREMENT,
+    ticket_name VARCHAR(100) NOT NULL,
+    ticket_type VARCHAR(255) NOT NULL,
+    ticket_price DECIMAL(10,2) NOT NULL,
+    ticket_quantity int NOT NULL NOT > 1
 );
 
--- Creating tagz Order Table
-Create Table tagz_order(
-    tagz_order_id int primary key UNIQUE AUTO_INCREMENT,
+-- Creating ticket Order Table
+Create Table ticket_order(
+    ticket_order_id int primary key UNIQUE AUTO_INCREMENT,
     order_id int,
-    tagz_code int,
+    ticket_code int,
     user_id int,
-    tagz_quantity int,
+    ticket_quantity int,
     order_date datetime,
     payment_status_id int,
     foreign key (user_id) references users(user_id),
     foreign key (payment_status_id) references payment_status(payment_status_id),
     foreign key (order_id) references orders(order_id),
-    foreign key (tagz_code) references tagz(tagz_code)
+    foreign key (ticket_code) references ticket(ticket_code)
 );
 
 
--- Creating tagz Upgrade Table
-Create Table tagz_upgrade(
-    tagz_upgrade_id int primary key UNIQUE AUTO_INCREMENT,
-    tagz_code int UNIQUE NOT NULL,
-    tagz_type VARCHAR(255) NOT NULL,
+-- Creating ticket Upgrade Table
+Create Table ticket_upgrade(
+    ticket_upgrade_id int primary key UNIQUE AUTO_INCREMENT,
+    ticket_code int UNIQUE NOT NULL,
+    ticket_type VARCHAR(255) NOT NULL,
     upgrade_price DECIMAL(10,2) NOT NULL,
-    upgraded_tagz_name VARCHAR(100) NOT NULL,
-    foreign key (tagz_type) references tagz(tagz_type),
-    foreign key (tagz_code) references tagz(tagz_code)
+    upgraded_ticket_name VARCHAR(100) NOT NULL,
+    foreign key (ticket_type) references ticket(ticket_type),
+    foreign key (ticket_code) references ticket(ticket_code)
 );
 
--- Creating tagz Upgrade Order Table
-Create Table tagz_upgrade_order(
-    tagz_upgrade_order_id int primary key UNIQUE AUTO_INCREMENT,
-    tagz_order_id int,
-    tagz_upgrade_id int,
-    foreign key (tagz_order_id) references tagz_order(tagz_order_id),
-    foreign key (tagz_upgrade_id) references tagz_upgrade(tagz_upgrade_id)
+-- Creating ticket Upgrade Order Table
+Create Table ticket_upgrade_order(
+    ticket_upgrade_order_id int primary key UNIQUE AUTO_INCREMENT,
+    ticket_order_id int,
+    ticket_upgrade_id int,
+    foreign key (ticket_order_id) references ticket_order(ticket_order_id),
+    foreign key (ticket_upgrade_id) references ticket_upgrade(ticket_upgrade_id)
 );
 
--- Creating tagz Order Status Table
-Create Table tagz_order_status(
-    tagz_order_status_id int primary key UNIQUE AUTO_INCREMENT,
-    tagz_order_id int,
+-- Creating ticket Order Status Table
+Create Table ticket_order_status(
+    ticket_order_status_id int primary key UNIQUE AUTO_INCREMENT,
+    ticket_order_id int,
     status_name VARCHAR(100) NOT NULL,
-    foreign key (tagz_order_id) references tagz_order(tagz_order_id)
+    foreign key (ticket_order_id) references ticket_order(ticket_order_id)
 );
 
--- Creating tagz Order History Table
-Create Table tagz_order_history(
-    tagz_order_history_id int primary key UNIQUE AUTO_INCREMENT,
-    tagz_order_id int,    
+-- Creating ticket Order History Table
+Create Table ticket_order_history(
+    ticket_order_history_id int primary key UNIQUE AUTO_INCREMENT,
+    ticket_order_id int,    
     status_name VARCHAR(100),
     order_date datetime, 
-    foreign key (tagz_order_id) references tagz_order(tagz_order_id), 
-    foreign key (status_name) references tagz_order_status(status_name)
+    foreign key (ticket_order_id) references ticket_order(ticket_order_id), 
+    foreign key (status_name) references ticket_order_status(status_name)
 );
