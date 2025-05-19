@@ -9,17 +9,26 @@ Create Table users (
     LastName VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone_No VARCHAR(20) NOT NULL
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
 );
 
 -- Creating Order Table
 Create Table orders(
-    order_id int Primaty key UNIQUE AUTO_INCREMENT,
+    order_id int Primary key UNIQUE AUTO_INCREMENT,
     user_id int,
     payment_status_id int,
     order_date datetime,
     ticket_type VARCHAR(255) NOT NULL,
     ticket_quantity int,
     ticket_price DECIMAL(10,2) NOT NULL,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key (user_id) references users(user_id),
     foreign key (payment_status_id) references payment_status(payment_status_id)
 );
@@ -36,7 +45,11 @@ Create Table ticket(
     ticket_name VARCHAR(100) NOT NULL,
     ticket_type VARCHAR(255) NOT NULL,
     ticket_price DECIMAL(10,2) NOT NULL,
-    ticket_quantity int NOT NULL NOT > 1
+    ticket_quantity int NOT NULL NOT > 1,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 );
 
 -- Creating ticket Order Table
@@ -48,6 +61,10 @@ Create Table ticket_order(
     ticket_quantity int,
     order_date datetime,
     payment_status_id int,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key (user_id) references users(user_id),
     foreign key (payment_status_id) references payment_status(payment_status_id),
     foreign key (order_id) references orders(order_id),
@@ -62,6 +79,10 @@ Create Table ticket_upgrade(
     ticket_type VARCHAR(255) NOT NULL,
     upgrade_price DECIMAL(10,2) NOT NULL,
     upgraded_ticket_name VARCHAR(100) NOT NULL,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key (ticket_type) references ticket(ticket_type),
     foreign key (ticket_code) references ticket(ticket_code)
 );
@@ -71,6 +92,10 @@ Create Table ticket_upgrade_order(
     ticket_upgrade_order_id int primary key UNIQUE AUTO_INCREMENT,
     ticket_order_id int,
     ticket_upgrade_id int,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key (ticket_order_id) references ticket_order(ticket_order_id),
     foreign key (ticket_upgrade_id) references ticket_upgrade(ticket_upgrade_id)
 );
@@ -80,6 +105,10 @@ Create Table ticket_order_status(
     ticket_order_status_id int primary key UNIQUE AUTO_INCREMENT,
     ticket_order_id int,
     status_name VARCHAR(100) NOT NULL,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key (ticket_order_id) references ticket_order(ticket_order_id)
 );
 
@@ -88,7 +117,11 @@ Create Table ticket_order_history(
     ticket_order_history_id int primary key UNIQUE AUTO_INCREMENT,
     ticket_order_id int,    
     status_name VARCHAR(100),
-    order_date datetime, 
+    order_date datetime,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(100) NOT NULL,
+    updated_by VARCHAR(100) NOT NULL,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     foreign key (ticket_order_id) references ticket_order(ticket_order_id), 
     foreign key (status_name) references ticket_order_status(status_name)
 );
